@@ -1,6 +1,9 @@
 package br.com.eduardoenemark.rwt.core.operation.annotation;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.lang.reflect.Method;
 
@@ -11,7 +14,9 @@ class WriteOperationAnnotationTest {
 
     private class SampleService {
         @WriteOperation
-        public void writeMethod() {}
+        public void writeMethod() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Test
@@ -19,7 +24,7 @@ class WriteOperationAnnotationTest {
     void testAnnotationRetention() throws NoSuchMethodException {
         Method method = SampleService.class.getMethod("writeMethod");
         assertTrue(method.isAnnotationPresent(WriteOperation.class),
-            "WriteOperation should be retained at runtime");
+                "WriteOperation should be retained at runtime");
     }
 
     @Test
@@ -45,14 +50,19 @@ class WriteOperationAnnotationTest {
     void testReadAndWriteAreDistinctAnnotations() throws NoSuchMethodException {
         class Service {
             @ReadOperation
-            public void readMethod() {}
+            public void readMethod() {
+                throw new UnsupportedOperationException();
+            }
+
             @WriteOperation
-            public void writeMethod() {}
+            public void writeMethod() {
+                throw new UnsupportedOperationException();
+            }
         }
-        
+
         Method readMethod = Service.class.getMethod("readMethod");
         Method writeMethod = Service.class.getMethod("writeMethod");
-        
+
         assertTrue(readMethod.isAnnotationPresent(ReadOperation.class));
         assertTrue(writeMethod.isAnnotationPresent(WriteOperation.class));
         assertFalse(readMethod.isAnnotationPresent(WriteOperation.class));

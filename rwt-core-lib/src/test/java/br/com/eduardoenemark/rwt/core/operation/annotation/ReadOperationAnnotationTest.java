@@ -1,6 +1,9 @@
 package br.com.eduardoenemark.rwt.core.operation.annotation;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.lang.reflect.Method;
 
@@ -11,7 +14,9 @@ class ReadOperationAnnotationTest {
 
     private class SampleService {
         @ReadOperation
-        public void readMethod() {}
+        public void readMethod() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Test
@@ -19,7 +24,7 @@ class ReadOperationAnnotationTest {
     void testAnnotationRetention() throws NoSuchMethodException {
         Method method = SampleService.class.getMethod("readMethod");
         assertTrue(method.isAnnotationPresent(ReadOperation.class),
-            "ReadOperation should be retained at runtime");
+                "ReadOperation should be retained at runtime");
     }
 
     @Test
